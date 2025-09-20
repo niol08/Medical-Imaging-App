@@ -1,5 +1,4 @@
 
-
 LABEL_REPHRASE = {
     "benign": "non-cancerous",
     "malignant": "cancerous",
