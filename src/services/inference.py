@@ -1,4 +1,4 @@
-# src/services/inference.py
+
 from src.models.CT.swin_wrapper import SwinHFClassifier
 from src.models.xray.xray_wrapper import XrayClassifier
 from .insights import query_gemini_flash
@@ -35,12 +35,10 @@ def run_inference(modality: str, file_path: str):
             "ai_insight": "No model integrated yet for this modality."
         }
 
-    # Rephrase labels
     label_name = result.get("label_name", "unknown")
     pretty_label = LABEL_REPHRASE.get(label_name, label_name)
     result["label_name"] = pretty_label
 
-    # Add Gemini insight
     confidence = result.get("confidence", 0.0)
     result["ai_insight"] = query_gemini_flash(modality, pretty_label, float(confidence))
 

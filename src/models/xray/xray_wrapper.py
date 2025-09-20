@@ -1,4 +1,4 @@
-# src/models/imaging/Xray/xray_wrapper.py
+
 import torch
 from typing import Dict, Optional
 from PIL import Image

@@ -1,9 +1,8 @@
-# src/services/insights.py
+
 import os
 import google.generativeai as genai
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
 load_dotenv()
 
 def get_api_key():
@@ -15,15 +14,12 @@ def get_api_key():
             import streamlit as st
             api_key = st.secrets["GEMINI_API_KEY"]
         except ImportError:
-            # Streamlit not available (running outside Streamlit app)
             pass
         except KeyError:
-            # Key not found in Streamlit secrets
             pass
     
     return api_key
 
-# Configure once with your API key
 genai.configure(api_key=get_api_key())
 
 
