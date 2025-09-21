@@ -16,23 +16,23 @@ class SwinHFClassifier:
     """
 
     def __init__(self,
-                 model_id: str = "Koushim/breast-cancer-swin-classifier",
-                 device: Optional[str] = None,
-                 hf_token: Optional[str] = None):
+        model_id: str = "Koushim/breast-cancer-swin-classifier",
+        device: Optional[str] = None,
+        hf_token: Optional[str] = None):
         self.model_id = model_id
         self.device = torch.device(device if device else ("cuda" if torch.cuda.is_available() else "cpu"))
 
         kwargs = {"use_auth_token": hf_token} if hf_token else {}
-        self.processor = AutoImageProcessor.from_pretrained(model_id, **kwargs)
+        self.processor = AutoImageProcessor.from_pretrained(model_id, use_fast=True, **kwargs)
         self.model = SwinForImageClassification.from_pretrained(model_id, **kwargs).to(self.device).eval()
 
 
         self.labels = ["benign", "malignant"]
 
     def _dicom_to_pil(self, dcm_path: str,
-                      apply_window: bool = False,
-                      window_center: Optional[float] = None,
-                      window_width: Optional[float] = None) -> Image.Image:
+        apply_window: bool = False,
+        window_center: Optional[float] = None,
+        window_width: Optional[float] = None) -> Image.Image:
         """Read DICOM and convert to PIL RGB using optional simple windowing."""
         ds = pydicom.dcmread(dcm_path)
         arr = ds.pixel_array.astype(np.float32)
